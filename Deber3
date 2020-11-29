@@ -1,0 +1,255 @@
+*
+ * UNIVERSIDAD TÉCNICA DEL NORTE
+ * FACULTAD DE INGENIERÍA EN CIENCIAS APLICADAS
+ * CARRERA DE INGENIERÍA EN TELECONMUNICACIONES
+ * SISTEMA EMBEBIDOS 
+ * 
+ * Nombre: Carolina Quinatoa 
+ * Fecha: 30 de Novimebre del 2020
+ * Deber N°3
+ */
+
+String dato1;  //variable de recepcion de strings
+String dato2;
+String dato3;
+String dato4;
+String dato5;  
+String dato6;
+String dato7;
+String dato8;
+
+//DECODIFICADOR
+int A=4;
+int B=5;
+int C=6;
+int D=7;
+int i; //variable de recorrido
+int preg=0;
+int puntaje=0; 
+
+ void setup(){
+Serial.begin(9600);
+  pinMode(A,OUTPUT);
+  pinMode(B,OUTPUT);
+  pinMode(C,OUTPUT);
+  pinMode(D,OUTPUT);
+Serial.println("Responda las siguientes preguntas SI o NO");
+  
+}
+
+void loop(){
+if(Serial.available()>0){
+
+  for(i=0;i<5;i++){
+    randomSeed(millis());
+    preg=random(8);
+        
+        if (preg==1){
+          delay(400);
+          Serial.println("La capital de Ecuador es Quito");
+          delay (2000);
+          if(Serial.available()>0){
+             dato1=Serial.readString(); // lee el dato
+//             dato1.toUpperCase(); // convertimos a mayúscula
+              if (dato1=="si"){
+                puntaje++;
+                Serial.println("");
+                Serial.println("Respuesta Correcta");
+                Serial.println("");
+              }else{
+                Serial.println("");
+                Serial.println("Respuesta Incorrecta");
+                Serial.println("");
+              }
+        }
+      }
+       
+      if (preg==2){
+          delay(400);
+          Serial.println("El Helio es el primer gas noble de la tabla periodica");
+          delay (2000);
+          if(Serial.available()>0){
+             dato2=Serial.readString(); // lee el dato
+//             dato2.toUpperCase(); // convertimos a mayúscula
+              if (dato2=="si"){
+                puntaje++;
+                Serial.println("");
+                Serial.println("Respuesta Correcta");
+                Serial.println("");
+              } else{
+                Serial.println("");
+                Serial.println("Respuesta Incorrecta");
+                Serial.println("");
+              }
+        }
+      }
+
+      if (preg==3){
+          delay(400);
+          Serial.println("Mexico es un pais de America del Sur");
+          delay (2000);
+          if(Serial.available()>0){
+             dato3=Serial.readString(); // lee el dato
+//             dato3.toUpperCase(); // convertimos a mayúscula
+              if (dato3=="no"){
+               puntaje++;
+                Serial.println("");
+                Serial.println("Respuesta Correcta");
+                Serial.println("");
+              } else{
+                Serial.println("");
+                Serial.println("Respuesta Incorrecta");
+                Serial.println("");
+              }
+        }
+      }
+
+      if (preg==4){
+          delay(400);
+          Serial.println("La derivada de una constante es 0");
+          delay (2000);
+          if(Serial.available()>0){
+             dato4=Serial.readString(); // lee el dato
+//             dato4.toUpperCase(); // convertimos a mayúscula
+              if (dato4=="si"){
+              puntaje++;
+              Serial.println("");
+                Serial.println("Respuesta Correcta");
+                Serial.println("");
+              } else{
+                Serial.println("");
+                Serial.println("Respuesta Incorrecta");
+                Serial.println("");
+              }
+        }
+      }
+
+      if (preg==5){
+          delay(400);
+          Serial.println("El rio Nilo es el rio mas largo del mundo");
+          delay (2000);
+          if(Serial.available()>0){
+             dato5=Serial.readString(); // lee el dato
+//             dato5.toUpperCase(); // convertimos a mayúscula
+              if (dato5=="si"){
+               puntaje++;
+               Serial.println("");
+                Serial.println("Respuesta Correcta");
+                Serial.println("");
+              }else{
+                Serial.println("");
+                Serial.println("Respuesta Incorrecta");
+                Serial.println("");
+              }
+        }
+      }
+
+      if (preg==6){
+          delay(400);
+          Serial.println("Los juegos Olimpicos se originaron en Asia");
+          delay (2000);
+          if(Serial.available()>0){
+             dato6=Serial.readString(); // lee el dato
+//             dato6.toUpperCase(); // convertimos a mayúscula
+              if (dato6=="no"){
+             puntaje++;
+             Serial.println("");
+                Serial.println("Respuesta Correcta");
+                Serial.println("");
+              } else{
+                Serial.println("");
+                Serial.println("Respuesta Incorrecta");
+                Serial.println("");
+              }
+        }
+      }
+
+      if (preg==7){
+          delay(400);
+          Serial.println("La ballena es un pez");
+          delay (2000);
+          if(Serial.available()>0){
+             dato7=Serial.readString(); // lee el dato
+//             dato7.toUpperCase(); // convertimos a mayúscula
+              if (dato7=="no"){
+               puntaje++;
+               Serial.println("");
+                Serial.println("Respuesta Correcta");
+                Serial.println("");
+              } else{
+                Serial.println("");
+                Serial.println("Respuesta Incorrecta");
+                Serial.println("");
+              }
+        }
+      }
+
+      if (preg==8){
+          delay(400);
+          Serial.println("El cuerpo humano tiene 206 huesos");
+          delay (2000);
+          if(Serial.available()>0){
+             dato8=Serial.readString(); // lee el dato
+//             dato8.toUpperCase(); // convertimos a mayúscula
+              if (dato8=="si"){
+               puntaje++;
+               Serial.println("");
+                Serial.println("Respuesta Correcta");
+                Serial.println("");
+              } else{
+                Serial.println("");
+                Serial.println("Respuesta Incorrecta");
+                Serial.println("");
+              }
+        }
+      }
+      if(puntaje==0){
+              digitalWrite(A,LOW);
+              digitalWrite(B,LOW);
+              digitalWrite(C,LOW);
+              digitalWrite(D,LOW);
+             }
+             if(puntaje==1){
+              digitalWrite(A,HIGH);
+              digitalWrite(B,LOW);
+              digitalWrite(C,LOW);
+              digitalWrite(D,LOW);
+             }
+             if(puntaje==2){
+              digitalWrite(A,LOW);
+              digitalWrite(B,HIGH);
+              digitalWrite(C,LOW);
+              digitalWrite(D,LOW);
+             }
+             if(puntaje==3){
+              digitalWrite(A,HIGH);
+              digitalWrite(B,HIGH);
+              digitalWrite(C,LOW);
+              digitalWrite(D,LOW);
+             }
+             if(puntaje==4){
+              digitalWrite(A,LOW);
+              digitalWrite(B,LOW);
+              digitalWrite(C,HIGH);
+              digitalWrite(D,LOW);
+             }
+             if(puntaje==5){
+              digitalWrite(A,HIGH);
+              digitalWrite(B,LOW);
+              digitalWrite(C,HIGH);
+              digitalWrite(D,LOW);
+             }
+        
+    }
+               if(i==5){
+               Serial.println("Su puntaje es: ");
+                Serial.println(puntaje);
+                puntaje="";
+                preg=0;     
+           }
+             
+              
+              
+    } 
+    
+}
