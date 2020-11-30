@@ -1,0 +1,66 @@
+/*
+ * UNIVERSIDAD TÉCNICA DEL NORTE
+ * FACULTAD DE INGENIERÍA EN CIENCIAS APLICADAS
+ * CARRERA DE INGENIERÍA EN TELECONMUNICACIONES
+ * SISTEMA EMBEBIDOS 
+ * 
+ * Nombre: Carolina Quinatoa 
+ * Fecha: 30 de Novimebre del 2020
+ * Deber N°4
+ * MASTER
+ */
+
+#include <LiquidCrystal.h>
+#include <Wire.h>
+
+LiquidCrystal lcd(7,6,5,4,3,2,1);
+  
+int cont=0; //Variable de conteo
+String dato; // Variable de recepción de strings
+int tam; //tamaño de caracteres
+int i=0; //Variable de recorrido
+String salida; // Mensaje codificado
+int j=0; //Variable de confirmación de vocales
+
+
+void setup() {
+   lcd.begin(16,2);
+   Wire.begin();  //cx i2c
+   Serial.begin(9600);  //cx serial
+   Serial.println("Ingreso de palabra");
+   Wire.onReceive(receiveEvent); 
+   
+
+}
+
+void loop() {
+  
+    Wire.beginTransmission(4); //enviar información al esclavo con id 4
+   
+    if (Serial.available()>0){
+      
+    dato=Serial.readString();//lee el dato----until para que busque hasta encontrar lo que dbe validar
+    dato.toLowerCase();//convertimos a minúsculas
+    tam=dato.length()+1; //definir el tamaño de la variable contando, +1 para tener la cadena sin errores
+    char vector [tam];// crear un vector
+    dato.toCharArray(vector,tam); //lenar el vector
+     Wire.write(vector);  //envio de dato
+     
+    Wire.endTransmission();  //fin de transmisión
+    
+    }
+}
+
+void receiveEvent(){
+  while(Wire.available()>0)   {
+    char salida = Wire.read(); // Recibe la palabra del i2c tx
+    Serial.print("Informacion recibida");
+    Serial.print(salida);
+    lcd.setCursor(0,1);
+    lcd.print("Palabra codificada");
+    delay(500);
+    lcd.setCursor(5,2);
+    lcd.print(salida);
+    delay(500);
+    }
+}
