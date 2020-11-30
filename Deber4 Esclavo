@@ -1,0 +1,94 @@
+/*
+ * UNIVERSIDAD TÉCNICA DEL NORTE
+ * FACULTAD DE INGENIERÍA EN CIENCIAS APLICADAS
+ * CARRERA DE INGENIERÍA EN TELECONMUNICACIONES
+ * SISTEMA EMBEBIDOS 
+ * 
+ * Nombre: Carolina Quinatoa 
+ * Fecha: 30 de Novimebre del 2020
+ * Deber N°4
+ * ESCLAVO
+ */
+
+#include <LiquidCrystal.h>
+#include <Wire.h>
+
+String dato; // Variable de recepción de strings
+int tam; //tamaño de caracteres
+int i=0; //Variable de recorrido
+String salida; // Mensaje codificado
+int j=0; //Variable de confirmación de vocales
+
+
+void setup() {
+   Wire.begin(4);  
+   Wire.onReceive(receiveEvent);//evento de recepción de mensajes
+ 
+   Serial.begin(9600);
+}
+
+void loop(){
+  delay(100);
+  
+     }   
+
+void receiveEvent(){
+  while(Wire.available()>0){ //si existe dato disponible
+    char c = Wire.read(); //leer el dato
+
+      dato=c;
+      dato.toLowerCase();//convertimos a minúsculas
+      tam=dato.length()+1; //definir el tamaño de la variable contando, +1 para tener la cadena sin errores
+      char vector [tam];// crear un vector
+      dato.toCharArray(vector,tam); //lenar el vector
+//    
+    //Validar si los caracteres son vocales
+    for (i=0;i<tam-1;i++)
+    
+    switch(vector[i]){ //evaluo por casos/vocales
+            
+            case 'a':
+            //codificación
+            salida=salida+"@"; 
+            break;
+                     
+            case 'e':
+            //codificación
+            //salida=salida+"010"; 
+            salida=salida+"#"; 
+            break;
+                      
+            case 'i':
+            //codificación
+            //salida=salida+"011"; 
+            salida=salida+"!"; 
+            break;
+                        
+            case 'o':
+            //codificación
+            //salida=salida+"100"; 
+            salida=salida+"*"; 
+            break;
+           
+            case 'u':
+            //salida=salida+"101"; 
+            salida=salida+"$"; 
+            break;
+            
+          }
+        }
+        j=0; //reinicia contador
+        Serial.println("Mensaje recibido");
+        Serial.println(dato);
+//        
+        salida+=dato;
+        delay (500);
+        Serial.println(String("Codificacion: ")+String(salida));
+//        salida="";
+       }
+      
+  
+   
+  
+
+
