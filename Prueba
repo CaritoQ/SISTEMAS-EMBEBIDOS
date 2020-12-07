@@ -1,0 +1,758 @@
+/*            
+ *             Carolina Quinatoa 
+ *             Prueba 1 Ejercicio Conversor Monedas
+ *             
+ *           Euro a: 
+ *                     1.21 dólares
+ *                     4218.43 peso colombiano
+ *                     99.04 peso argentino
+ *                     1.08 franco suizo
+ *                     6.19 real
+ *          Dólar a:            
+ *                     0.82 euros
+ *                     3474.12 peso colombiano
+ *                     81.60 peso argentino
+ *                     0.89 franco suizo
+ *                     5.10 real
+ *                    
+ *         Peso Colombiano a: 
+ *                     0.00024 euros
+ *                     0.00029 dólar
+ *                     0.024 peso argentino
+ *                     0.00026 franco suizo
+ *                     0.0015 real
+ *          
+ *         Peso Argentino a: 
+ *                     0.010 euros
+ *                     0.012 dólar
+ *                     42.58 peso colombiano
+ *                     0.011 franco suizo
+ *                     0.062 real
+ *                     
+ *        Franco Suizo a: 
+ *                     0.93 euros
+ *                     1.12 dólar
+ *                     3906.80 peso colombiano
+ *                     91.70 peso argentino
+ *                     5.73 real
+ *                    
+ *       Real a: 
+ *                     0.16 euros
+ *                     0.20 dólar
+ *                     681.13 peso colombiano
+ *                     16.00 peso argentino
+ *                     0.17 franco suizo
+ */
+String dato;
+int tam;
+int valor;
+int convert;
+int mentrada=0;
+int msalida=0;
+
+int unav=1;
+
+void setup() { 
+
+  
+Serial.begin(9600);
+  attachInterrupt(0,entrada,LOW);
+  attachInterrupt(1,salida,LOW);
+  Serial.println("-------------------------");
+  Serial.println("Ingrese valor a convertir");
+  Serial.println("-------------------------");
+}
+
+void loop() {
+
+  if (Serial.available()>0) { 
+    dato=Serial.readString();
+    valor=dato.toInt();
+    unav=0;
+  }  
+     
+  // CONVERSIONES A OTRAS MONEDAS
+   //DOLAR A EURO
+  if(mentrada==1 && msalida==2 && unav==0){       
+
+    convert=valor*0.82;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("DOLAR: ");
+    Serial.println(valor);
+    Serial.print("EURO: ");
+    Serial.println(convert);
+    unav=1;
+  }
+  //DOLAR A PESO COLOMBIANO
+  if(mentrada==1 && msalida==3 && unav==0){        
+    convert=valor*3474.12;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("DOLAR: ");
+    Serial.println(valor);
+    Serial.print("PESO COL: ");
+    Serial.println(convert);
+    unav=1;
+  }
+ //DOLAR A REAL
+   if(mentrada==1 && msalida==4 && unav==0){     
+ 
+    convert=valor*5.10;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("DOLAR: ");
+    Serial.println(valor);
+    Serial.print("REAL: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+
+  //DOLAR A PESO ARGENTINO
+   if(mentrada==1 && msalida==5 && unav==0){     
+
+    convert=valor*81.60;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("DOLAR: ");
+    Serial.println(valor);
+    Serial.print("REAL: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+
+//DOLAR A FRANCO SUIZO
+   if(mentrada==1 && msalida==6 && unav==0){     
+
+    convert=valor*81.60;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("DOLAR: ");
+    Serial.println(valor);
+    Serial.print("REAL: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+  
+  // EURO A DOLAR
+   if(mentrada==2 && msalida==1 && unav==0){      
+
+    convert=valor*1.21;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("EURO: ");
+    Serial.println(valor);
+    Serial.print("DOLAR: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+
+  //EURO A PESO COLOMBIANO
+   if(mentrada==2 && msalida==3 && unav==0){       
+//    valor=(analogRead(0)*100.0)/1023.0;
+    convert=valor*4218.43;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("EURO: ");
+    Serial.println(valor);
+    Serial.print("PESO COL: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+  //EURO A REAL
+   if(mentrada==2 && msalida==4 && unav==0){    
+//    valor=(analogRead(0)*100.0)/1023.0;
+    convert=valor*6.19;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("EURO: ");
+    Serial.println(valor);
+    Serial.print("REAL: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+
+  //EURO A PESO ARGENTINO
+   if(mentrada==2 && msalida==5 && unav==0){       
+//    valor=(analogRead(0)*100.0)/1023.0;
+    convert=valor*99.04;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("EURO: ");
+    Serial.println(valor);
+    Serial.print("PESO COL: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+  //EURO A FRANCO SUIZO
+   if(mentrada==2 && msalida==6 && unav==0){    
+
+    convert=valor*1.08;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("EURO: ");
+    Serial.println(valor);
+    Serial.print("REAL: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+  //  PESO COLOMBIANO A DOLAR
+   if(mentrada==3 && msalida==1 && unav==0){       
+
+    convert=valor*0.00029;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("PESO: ");
+    Serial.println(valor);
+    Serial.print("DOLAR: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+  //PESO COLOMBIANO A EURO
+  if(mentrada==3 && msalida==2 && unav==0){      
+
+    convert=valor*0.00024;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("PESO: ");
+    Serial.println(valor);
+    Serial.print("EURO: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+
+ // PESO COLOMBIANO A REAL
+  if(mentrada==3 && msalida==4 && unav==0){      
+//    valor=(analogRead(0)*100.0)/1023.0;
+    convert=valor*0.0015;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("PESO: ");
+    Serial.println(valor);
+    Serial.print("REAL: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+
+  //PESO COLOMBIANO A PESO ARGENTINO
+  if(mentrada==3 && msalida==5 && unav==0){      
+
+    convert=valor*0.024;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("PESO: ");
+    Serial.println(valor);
+    Serial.print("EURO: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+
+ // PESO COLOMBIANO A FRANCO SUIZO
+  if(mentrada==3 && msalida==6 && unav==0){      
+//    valor=(analogRead(0)*100.0)/1023.0;
+    convert=valor*0.00026;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("PESO: ");
+    Serial.println(valor);
+    Serial.print("REAL: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+  
+  //REAL A DOLAR
+  if(mentrada==4 && msalida==1 && unav==0){      
+//    valor=(analogRead(0)*100.0)/1023.0;
+    convert=valor*0.20;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("REAL: ");
+    Serial.println(valor);
+    Serial.print("DOLAR: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+  //REAL A EURO
+   if(mentrada==4 && msalida==2 && unav==0){      
+
+    convert=valor*0.16;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("REAL: ");
+    Serial.println(valor);
+    Serial.print("EURO: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+ // REAL A PESO COLOMBIANO
+   if(mentrada==4 && msalida==3 && unav==0){       
+
+    convert=valor*681.13;
+    Serial.println("");
+    Serial.println("-----------------------");
+  Serial.print("REAL: ");
+    Serial.println(valor);
+  Serial.print("PESO COL: ");
+     Serial.println(convert);
+     unav=1;
+  } 
+//REAL A PESO ARGENTINO
+   if(mentrada==4 && msalida==5 && unav==0){      
+
+    convert=valor*16;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("REAL: ");
+    Serial.println(valor);
+    Serial.print("EURO: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+ // REAL A FRANCO SUIZO
+   if(mentrada==4 && msalida==6 && unav==0){       
+//    valor=(analogRead(0)*100.0)/1023.0;
+    convert=valor*0.17;
+    Serial.println("");
+    Serial.println("-----------------------");
+  Serial.print("REAL: ");
+    Serial.println(valor);
+  Serial.print("PESO COL: ");
+     Serial.println(convert);
+     unav=1;
+  } 
+
+ //  PESO ARGENTINO A DOLAR
+   if(mentrada==5 && msalida==1 && unav==0){       
+
+    convert=valor*0.012;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("PESO ARGENTINO: ");
+    Serial.println(valor);
+    Serial.print("DOLAR: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+  //PESO ARGENTINO A EURO
+  if(mentrada==5 && msalida==2 && unav==0){      
+
+    convert=valor*0.010;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("PESO ARGENTINO: ");
+    Serial.println(valor);
+    Serial.print("EURO: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+
+ // PESO ARGENTINO A REAL
+  if(mentrada==5 && msalida==4 && unav==0){      
+//    valor=(analogRead(0)*100.0)/1023.0;
+    convert=valor*0.062;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("PESO ARGENTINO: ");
+    Serial.println(valor);
+    Serial.print("REAL: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+
+  //PESO ARGENTINO A PESO COLOMBIANO
+  if(mentrada==5 && msalida==3 && unav==0){      
+
+    convert=valor*42.58;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("PESO ARGENTINO: ");
+    Serial.println(valor);
+    Serial.print("EURO: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+
+ // PESO ARGENTINO A FRANCO SUIZO
+  if(mentrada==5 && msalida==6 && unav==0){      
+//    valor=(analogRead(0)*100.0)/1023.0;
+    convert=valor*0.011;
+    Serial.println("");
+    Serial.println("-----------------------");
+    Serial.print("PESO: ");
+    Serial.println(valor);
+    Serial.print("REAL: ");
+    Serial.println(convert);
+    unav=1;
+  } 
+}
+void entrada(){
+  mentrada++;
+  switch(mentrada){
+    case 1:
+    unav=0;
+    break;
+
+    case 2:
+    unav=0;
+    break;
+
+    case 3:
+    unav=0;
+    break;
+
+    case 4:
+    unav=0;
+    break;
+
+    case 5:
+    unav=0;
+    break;
+
+    case 6:
+    unav=0;
+    break;
+
+    default:
+    mentrada=0;
+    break;
+  }
+}
+
+void salida(){
+    msalida++;
+  switch(msalida){
+
+    case 1:
+    unav=0;
+    break;
+
+    case 2:
+    unav=0;
+    break;
+    
+    case 3:
+    unav=0;
+    break;
+
+    case 4:
+    unav=0;
+    break;
+
+    case 5:
+    unav=0;
+    break;
+
+    case 6:
+    unav=0;
+    break;
+    
+    default:
+    msalida=0;
+    break;
+  }
+}
+///////////////////////////////////////////////////////////////////////////////////////////
+/*
+ * Carolina Quinatoa
+ * Prueba 1 Ejercicio Convertidor Morse
+ */
+#include <LiquidCrystal.h>
+LiquidCrystal lcd {13,12,11,10,9,8};
+
+String dato; // Variable de recepción de strings
+int tam; //tamaño de caracteres
+int i=0; //Variable de recorrido
+String salida; // Mensaje codificado
+int j=0; //Variable de confirmación de vocales
+
+void setup() {
+  Serial.begin(9600); //activación de la comunicación serial
+  lcd.begin(16,2);
+
+}
+
+void loop() {
+  if (Serial.available()>0){
+    dato=Serial.readString();//lee el dato----until para que busque hasta encontrar lo que dbe validar
+    dato.toLowerCase();//convertimos a minúsculas
+    tam=dato.length()+1; //definir el tamaño de la variable contando, +1 para tener la cadena sin errores
+    char vector [tam];// crear un vector
+    dato.toCharArray(vector,tam); //lenar el vector
+    
+    
+        for (i=0;i<tam-1;i++){ //recorro posiciones del vector
+          switch(vector[i]){ //evaluo por casos/vocales
+            
+            case 'a':
+            //codificación
+            salida=salida+"._"; 
+            break;
+            
+            case 'b':
+            //codificación
+            salida=salida+" _..."; 
+            break;
+                      
+            case 'c':
+            //codificación
+            salida=salida+" _._."; 
+            break;
+                        
+            case 'd':
+            //codificación
+            salida=salida+" _.."; 
+            break;
+           
+            case 'e':
+            //codificación
+            salida=salida+"."; 
+            break;
+            
+            case 'f':
+            //codificación
+            salida=salida+".._."; 
+            break;
+                      
+            case 'g':
+            //codificación
+            salida=salida+" _ _."; 
+            break;
+                        
+            case 'h':
+            //codificación
+            salida=salida+"...."; 
+            break;
+           
+                      
+            case 'i':
+            //codificación
+            //salida=salida+"011"; 
+            salida=salida+".."; 
+            break;
+
+            case 'j':
+            //codificación
+            salida=salida+"._ _ _"; 
+            break;
+                      
+            case 'k':
+            //codificación
+            salida=salida+" _._"; 
+            break;
+                        
+            case 'l':
+            //codificación
+            //salida=salida+"100"; 
+            salida=salida+"._.."; 
+            break;
+           
+                        
+            case 'm':
+            //codificación
+            //salida=salida+"100"; 
+            salida=salida+" _ _"; 
+            break;
+
+           case 'n':
+            //codificación
+            salida=salida+" _."; 
+            break;
+                      
+            case 'o':
+            //codificación
+            salida=salida+" _ _ _"; 
+            break;
+                        
+            case 'p':
+            //codificación
+            //salida=salida+"100"; 
+            salida=salida+"._ _."; 
+            break;
+
+           case 'q':
+            //codificación
+            salida=salida+" _ _._"; 
+            break;
+            
+            case 'r':
+            //codificación
+            salida=salida+"._."; 
+            break;
+                      
+            case 's':
+            //codificación
+            salida=salida+"..."; 
+            break;
+                        
+            case 't':
+            //codificación
+            salida=salida+" _"; 
+            break;
+           
+            case 'u':
+            //codificación
+            salida=salida+".._"; 
+            break;
+            
+            case 'v':
+            //codificación
+            salida=salida+".._"; 
+            break;
+                      
+            case 'w':
+            //codificación
+            salida=salida+"._ _"; 
+            break;
+                        
+            case 'x':
+            //codificación
+            salida=salida+" _.._"; 
+            break;
+           
+                      
+            case 'y':
+            //codificación
+            //salida=salida+"011"; 
+            salida=salida+" _._ _"; 
+            break;
+
+            case 'z':
+            //codificación
+            salida=salida+" _ _.."; 
+            break;
+                      
+            case '0':
+            //codificación
+            salida=salida+" _ _ _ _ _"; 
+            break;
+                        
+            case '1':
+            //codificación
+            //salida=salida+"100"; 
+            salida=salida+"._ _ _ _"; 
+            break;
+           
+                        
+            case '2':
+            //codificación
+            //salida=salida+"100"; 
+            salida=salida+".._ _ _"; 
+            break;
+
+           case '3':
+            //codificación
+            salida=salida+"..._ _"; 
+            break;
+                      
+            case '4':
+            //codificación
+            salida=salida+"...._"; 
+            break;
+                        
+            case '5':
+            //codificación
+            //salida=salida+"100"; 
+            salida=salida+"....."; 
+            break;
+
+            case '6':
+            //salida=salida+"101"; 
+            salida=salida+" _...."; 
+            break;
+            
+            case '7':
+            //salida=salida+"101"; 
+            salida=salida+" _ _..."; 
+            break;
+
+            case '8':
+            //salida=salida+"101"; 
+            salida=salida+" _ _ _.."; 
+            break;
+            
+            case '9':
+            //salida=salida+"101"; 
+            salida=salida+" _ _ _ _."; 
+            break;
+            
+     
+        }
+       }
+       j=0; //reinicia contador
+       Serial.println("");
+        Serial.println("Codigo: "); //envia mensaje codificado
+        Serial.println("");
+        Serial.println(salida);
+        lcd.setCursor(0,0);
+        lcd.print("Mensaje Codificado:");
+        lcd.setCursor(0,1);
+        lcd.print(salida);
+        
+        salida="";
+     }  
+  }
+
+///////////////////////////////////////////////////////////////////////////////////////
+/*
+ * Carolina Quinatoa
+ * Prueba 1 Ejercicio Contador
+ */
+#include <LiquidCrystal.h>
+#include <MsTimer2.h>
+
+LiquidCrystal lcd{13,12,11,10,9,8};
+
+int valor;
+int valor2;
+int bloqueo=0;
+
+void setup() {
+  lcd.begin(16,2);
+  Serial.begin(9600);
+  attachInterrupt(0,aceptar,FALLING);
+  lcd.setCursor(0,0);
+  lcd.print("Ingresar tiempo");
+ 
+}
+
+void loop() {
+ if(bloqueo==0){
+ valor=analogRead(0);
+ valor2=map(valor, 0, 1023, 10, 20);
+
+ delay(300);
+
+  lcd.setCursor(0,1);
+  lcd.print("Tiempo = ");
+  lcd.setCursor(9,1);
+  lcd.print(valor2);
+ }
+}
+
+void aceptar(){
+ bloqueo=1;   
+  MsTimer2::set(1000,cont);
+  MsTimer2::start();  
+  }
+
+void cont(){
+  valor2--;
+
+  if(valor2>-1){
+  
+  lcd.setCursor(0,1);
+  lcd.print("Tiempo = ");
+  lcd.setCursor(9,1);
+  lcd.print("  ");
+  lcd.setCursor(9,1);
+  lcd.print(valor2);
+  }
+  else{
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Ingresar tiempo");
+    bloqueo=0;
+    MsTimer2::stop();
+    }
+  
+  }
