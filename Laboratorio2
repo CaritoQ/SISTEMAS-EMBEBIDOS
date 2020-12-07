@@ -1,0 +1,249 @@
+/*
+ * UNIVERSIDAD TÉCNICA DEL NORTE
+ * FACULTAD DE INGENIERÍA EN CIENCIAS APLICADAS
+ * CARRERA DE INGENIERÍA EN TELECOMUNICACIONES
+ * SISTEMAS EMBEBIDOS 
+ * Nombre: Carolina Quinatoa 
+ * 
+ * LABORATORIO 2
+ */
+#include <MsTimer2.h>
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(13,12,11,10,9,8);
+
+int on=0; //int 0
+int cont ;// int 1
+int i; //aux
+int j=0; //aux
+int n;
+
+int minutos=0; //Declración variable minutos 
+int horas=0; //Declración variable horas
+
+const int led1=4; //Declaración de led para juego
+const int led2=5; //Declaración de led para juego
+const int led3=6; //Declaración de led para juego
+const int led4=7; //Declaración de led para juego
+const int btn1=A2;//Declaración de botones como sensores
+const int btn2=A3;//Declaración de botones como sensores
+const int btn3=A4;//Declaración de botones como sensores
+const int btn4=A5;//Declaración de botones como sensores
+
+void setup() {
+  
+  lcd.begin(16,2); //Inicialización de lcd
+  MsTimer2::set(1000,reloj); 
+
+  pinMode(4,OUTPUT); //Declaración de pines de salida
+  pinMode(5,OUTPUT); //Declaración de pines de salida
+  pinMode(6,OUTPUT); //Declaración de pines de salida
+  pinMode(7,OUTPUT); //Declaración de pines de salida
+  pinMode(A0,INPUT); //Declaración de pines de entrada
+  pinMode(A1,INPUT); //Declaración de pines de entrada
+  
+  i=0;
+  Serial.begin(9600);
+  //Interrupciones
+  attachInterrupt(0,activacion,LOW);
+  attachInterrupt(1,contador,LOW);
+  
+}
+
+void loop() {
+
+  if(cont==1){
+    juego(); //Declaración de nuevos métodos 
+    }
+   if(cont==2){
+    confr(); //Declaración de nuevos métodos 
+        
+    }
+   if(cont==3){
+    sensores(); //Declaración de nuevos métodos 
+    }
+ }
+ 
+void activacion() {
+ //NO FUNCIONA DELAY
+   switch(on) {
+    
+        case 0:       
+        Serial.println ("Inicio del Sistema");
+        MsTimer2::start(); //Inicio de reloj
+        lcd.setCursor(0,0);
+        lcd.print("La hora es: "); //Impresión de la hora
+        on++;
+        break;
+      
+        case 1:       
+        Serial.println("Seleccionar el modo"); //Selección de modo
+        on++;
+        break;
+
+        case 2:       
+        Serial.println("Apagado del Sistema"); // Apagado del sistema
+        MsTimer2::stop(); //Detener reloj
+        cont=0;
+        i=0;
+        j=0;
+        on=0;
+        lcd.clear();
+        
+        break;
+        
+        }
+  }
+
+void contador (){ //Método para el contador de los modos
+
+       switch(cont) {
+    
+        case 0:
+        Serial.println ("Inicio Juego de Luces"); //Primer modo
+        cont++;
+        break;
+      
+        case 1:       
+        Serial.println("Configuracion del Reloj"); //Segundo modo
+        j=101;
+        
+        cont++;
+        Serial.println(cont);
+        break;
+
+        case 2:       
+        Serial.println("Sistema de Sensores");//Tercer modo
+        cont++;     
+        break;
+        } 
+      }
+      
+void reloj() {  //Método para funcionamiento del reloj
+  if(minutos<60){ //Declaración de ciclo para minutos 
+         minutos++;
+        }else {
+          minutos=0;
+        if (horas<24) //Declaración de ciclo para horas
+            horas++;
+            else
+            horas=0;
+            }
+
+          lcd.setCursor(10,2);
+          lcd.print(String(horas)+String(":")+String(minutos)); //Impresión de la hora
+      }
+      
+void juego(){
+    for (;j<20;j++){ //Ciclo de juego de luces
+      n = random(1,5); //Aleatorio para luces
+      switch(n){
+        case 1:
+        digitalWrite(led1,HIGH);
+         delay(500);
+        digitalWrite(led2,HIGH);
+         delay(500);
+        digitalWrite(led3,HIGH);
+         delay(500);
+        digitalWrite(led4,HIGH);
+        delay(500);
+        digitalWrite(led1,LOW);
+         delay(500);
+        digitalWrite(led2,LOW);
+         delay(500);
+        digitalWrite(led3,LOW);
+         delay(500);
+        digitalWrite(led4,LOW);
+        delay(500);
+        break;
+
+        case 2:
+        digitalWrite(led1,HIGH);
+         delay(500);
+        digitalWrite(led2,HIGH);
+         delay(500);
+        digitalWrite(led3,HIGH);
+         delay(500);
+        digitalWrite(led4,HIGH);
+        delay(500);
+        digitalWrite(led1,LOW);
+         delay(500);
+        digitalWrite(led2,LOW);
+         delay(500);
+        digitalWrite(led3,LOW);
+         delay(500);
+        digitalWrite(led4,LOW);
+        delay(500);
+        break;
+
+        case 3:
+        digitalWrite(led1,HIGH);
+         delay(500);
+        digitalWrite(led2,HIGH);
+         delay(500);
+        digitalWrite(led3,HIGH);
+         delay(500);
+        digitalWrite(led4,HIGH);
+        delay(500);
+        digitalWrite(led1,LOW);
+         delay(500);
+        digitalWrite(led2,LOW);
+         delay(500);
+        digitalWrite(led3,LOW);
+         delay(500);
+        digitalWrite(led4,LOW);
+        delay(500);
+        break;
+
+        case 4:
+        digitalWrite(led1,HIGH);
+         delay(500);
+        digitalWrite(led2,HIGH);
+         delay(500);
+        digitalWrite(led3,HIGH);
+         delay(500);
+        digitalWrite(led4,HIGH);
+        delay(500);
+        digitalWrite(led1,LOW);
+         delay(500);
+        digitalWrite(led2,LOW);
+         delay(500);
+        digitalWrite(led3,LOW);
+         delay(500);
+        digitalWrite(led4,LOW);
+        delay(500);
+        break;
+        }
+        } 
+    }
+   
+ void confr(){ //Método de configuración de reloj
+  minutos=analogRead(0); //Lectura de potenciómetro
+  horas=analogRead(1);//Lectura de potenciómetro
+  horas=map(horas,0,1023,0,23); //Conversión de números 
+  minutos=map(minutos,0,1023,0,59); //Conversión de números 
+  lcd.setCursor(10,2);
+  lcd.print(String(horas)+String(":")+String(minutos));
+  delay(1000);
+  } 
+  
+  void sensores(){
+    //Activación de sensores
+    if(digitalRead (btn1)==HIGH){
+      Serial.println("Sensor 1 ha detectado movimiento");
+      delay(1000);
+    } 
+    if(digitalRead (btn2)==HIGH){
+      Serial.println("Sensor 2 ha detectado movimiento");
+      delay(1000);
+    } 
+    if(digitalRead (btn3)==HIGH){
+      Serial.println("Sensor 3 ha detectado movimiento");
+      delay(1000);
+    } 
+    if(digitalRead (btn4)==HIGH){
+      Serial.println("Sensor 4 ha detectado movimiento");
+      delay(1000);
+    }
+  } 
+ 
