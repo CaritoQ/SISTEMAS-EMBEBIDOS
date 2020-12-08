@@ -1,1 +1,68 @@
+/*
+ * UNIVERSIDAD TÉCNICA DEL NORTE
+ * FACULTAD DE INGENIERÍA EN CIENCIAS APLICADAS
+ * CARRERA DE INGENIERÍA EN TELECOMUNICACIONES
+ * SISTEMAS EMBEBIDOS 
+ * Nombre: Carolina Quinatoa 
+ * 
+ * Deber 5
+ */
 
+#include <Servo.h>
+
+Servo servo; //objeto para servo1
+
+String entrada;
+int ngiro;
+int modo=0;
+
+
+void setup() {
+  servo.attach(5);
+  Serial.begin(9600);
+  attachInterrupt(0,movimiento,LOW);
+  Serial.println("Movimiento de Servo");
+  Serial.println("1. Inicio del Sistema");
+   Serial.println("2. Numero de giros");
+    Serial.println("1. Apagado del Sistema");
+ }
+
+void loop() {
+if (modo==2){
+     if(Serial.available()>0){
+      entrada=Serial.readString(); //recibo dato en String
+      ngiro=entrada.toInt(); //convierto dato a int
+      delay(100);
+     }
+     
+    servo.write(ngiro);
+    delay(20);
+   }
+   if(modo==3){
+  modo=0;
+  servo.write(0);
+}
+}
+
+void movimiento() {
+  switch(modo){
+    case 0:       
+        Serial.println ("Sistema de Movimiento Activo");
+        modo++;
+        break;
+      
+        case 1:       
+        Serial.println("Ingresar el # de giros: ");
+        modo++;
+        servo.write(ngiro);
+        break;
+
+        case 2:       
+        Serial.println("Apagado del Sistema"); // Apagado del sistema
+        modo=0;
+        
+        break;
+  }
+  
+     
+     }
