@@ -1,1 +1,59 @@
+/*
+ * UNIVERSIDAD TÉCNICA DEL NORTE
+ * FACULTAD DE INGENIERÍA EN CIENCIAS APLICADAS
+ * CARRERA DE INGENIERÍA EN TELECOMUNICACIONES
+ * SISTEMAS EMEBEBIDOS 
+ * 
+ * Nombre: Carolina Quinatoa
+ * Fecha: 9 de Diciembre del 2020
+ * 
+ * MEMORIA EEPROM
+ */
+ 
+#include <EEPROM.h>
 
+int i=0; 
+String entrada; 
+String cambio;
+int salida;
+int contra=4563;
+String entrada2; 
+int opcion;
+
+
+void setup() {
+    Serial.begin(9600);
+    Serial.print("Digite 1. Ingresar clave, 2. Cambio de contraseña");
+    delay(3000);
+    EEPROM.write(0,contra);
+          
+}
+
+void loop() {
+  
+  if(Serial.available()>0){
+    opcion=Serial.read();
+    
+    }
+  if (opcion==1){
+   Serial.println("Ingresar clave");
+    entrada= Serial.readString();
+    salida=entrada.toInt();
+  if (salida==contra){
+  Serial.println("La clave es correcta");
+   delay(3000);
+  } else 
+  Serial.println ("Clave incorrecta");
+    
+ }else if (opcion==2){
+  Serial.println("Cambio de clave"); 
+  delay(3000);
+  Serial.println("Ingresar nueva clave");
+   entrada2=Serial.readString();
+   salida=entrada2.toInt();
+   contra=salida;
+   EEPROM.update(0,contra);
+   Serial.print("Se ha cambiado la clave");
+    }
+    
+   }
