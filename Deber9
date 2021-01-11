@@ -1,0 +1,62 @@
+/*
+ * UNIVERSIDAD TÉCNICA DEL NORTE
+ * FACULTAD DE INGENIERÍA EN CIENCIAS APLICADAS
+ * CARRERA DE INGENIERÍA EN TELECOMUNICACIONES
+ * 
+ * Nombre: Carolina Quinatoa 
+ * Fecha: 13 de Enero del 2021
+ * 
+ * Deber N°9 
+ */
+
+#include <avr/wdt.h> // Libreria WDT
+#include <MsTimer2.h>
+
+int conv = 0;
+int cont = 0;
+int inicio = 0;
+
+int treset=0;
+
+void setup(){
+  Serial.begin(9600);
+  MsTimer2::set(1000, conteo);
+  attachInterrupt(0,on,LOW);
+}
+
+void loop() {
+  if(inicio==1){
+    conv = analogRead(0);
+    treset = map(conv, 0, 1023, 0, 60);
+    Serial.println(String("Tiempo de reinicio: ")+String(treset)+String(" segundos")); 
+    delay(50);
+    }
+}
+
+void on() {
+  switch(inicio){
+    case 0:
+      Serial.println("SISTEMA ENCENDIDO");
+      inicio++;
+    break;
+  
+    case 1:
+      Serial.println(String("Tiempo de reinicio: ")+String(treset)+String(" segundos"));
+      MsTimer2::start();
+      inicio=0;
+    break;
+
+    case 2:
+      Serial.println("SISTEMA APAGADO");
+      MsTimer2::stop();
+      inicio=0;
+    break;
+  }
+}
+void conteo() {
+  cont++;
+  if (cont==treset){
+  wdt_disable();
+  wdt_enable(WDTO_4S);
+  }
+}
