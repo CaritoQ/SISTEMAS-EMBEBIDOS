@@ -1,0 +1,47 @@
+/*
+ * UNIVERSIDAD TÉCNICA DEL NORTE
+ * FACULTAD DE INGENIERÍA EN CIENCIAS APLICADAS
+ * CARRERA DE INGENIERÍA EN TELECOMUNICACIONES
+ * SISTEMAS EMBEBIDOS
+ * 
+ * Nombre: Carolina Quinatoa
+ * Fecha: 13 de Enero del 2021
+ * 
+ * Deber N°8
+ */
+
+
+ #include <avr/power.h>
+ #include <avr/sleep.h>
+ #include <avr/wdt.h>
+ #include <MsTimer2.h>
+
+ int dato;
+ int on=0;
+ int tiempo=0;
+ int cont=0;
+
+void setup() {
+  Serial.begin(9600);
+   MsTimer2::set(1000,contador); 
+   if(dato==0){
+      Serial.println(String("Ingreso: ")+String(analogRead(0)));
+      MsTimer2::start();
+    }
+  
+  }
+void contador (){
+  if(tiempo<=60){
+    tiempo++;
+     }
+  }
+  
+void loop() {
+  if(dato==1){
+     MsTimer2::stop();
+      wdt_enable(WDTO_4S);
+      set_sleep_mode(SLEEP_MODE_STANDBY);
+      sleep_enable();
+      }
+}
+
