@@ -20,7 +20,7 @@ boolean cambio=false;
 
 void setup() {
   size(400, 400);//Tamaño de la ventana. Es el resultado de la multiplicacion del número de filas por el número de columnas
-  frameRate(1);//Velocidad de la serpiente
+  frameRate(3);//Velocidad de la serpiente
   fill(255,255,255);
   text("PUNTAJE:",100,10);
 port= new Serial(this, "COM10",9600);
@@ -29,13 +29,12 @@ port= new Serial(this, "COM10",9600);
   posY.add(10);//posición inicial serpiente eje Y
   com1 = (int) random(0, 20);//Posición manzana aleatoria eje X
   com2 = (int) random(0, 20);//Posición manzana aleatoria eje Y
-
-
   
 }
 
 void draw() {
-   movimientos();    
+   
+  movimientos();    
  
   if (cambio) {
     background((int) random(0, 255), (int) random(0, 255), (int) random(0, 255));//color del fondo cambia constantemente 
@@ -47,12 +46,7 @@ void draw() {
   text("PUNTAJE:",100,20);
   
   //Cuando pierdes...
-  //if (gameOver) {
-  //  fill(255);//Color negro del texto
-  //  textSize(20);//Tamaño texto cuando mueres
-  //  text("Presione una tecla para iniciar", 50, height/2);//Cuando mueres aparece "Press space to continue" a una determinada altura
-  //} else {
-  //  //Grid
+  if (gameOver==false) {
     fill(255);//color negro de las líneas de los cuadrados
     for (int i = 0; i < filas; i++) { //Dibujar filas
       line(0, i*bs, width, i*bs);
@@ -60,8 +54,7 @@ void draw() {
     for (int j = 0; j < columnas; j++) { //Dibujar columnas
       line(j*bs, 0, j*bs, height);
     }
-    
-
+  
   //  mover serpiente
         //detectar borde .Si se detecta que la serpiente está en el borde,pierdes.
     if( ( posX.get(0)<0 )||( posX.get(0)>filas-1 )||( posY.get(0)<0 )||( posY.get(0)>columnas-1 ) ) {
@@ -72,8 +65,8 @@ void draw() {
     if ((posX.get(0)==com1)&&(posY.get(0)==com2)) {//La serpiente se comerá la esfera cuando estén en la misma posición
       com1 = (int) random(0, 20);//Cuando sea comida cambiará de lugar en el eje X
       com2 = (int) random(0, 20);//Cuando sea comida cmbiará de lugar en el eje Y
-     text(cont,100,20); 
-      cont++;
+     text(cont,200,20); 
+      cont=cont+1;
            
       posX.add(posX.get(posX.size()-1));//Cuando la serpiente se coma la manzana ,crecerá de tamaño
       posY.add(posY.get(posY.size()-1));
@@ -95,7 +88,7 @@ void draw() {
     for (int i = 0; i < posX.size(); i++) {
       ellipse(posX.get(i)*bs, posY.get(i)*bs, bs, bs);//posicion y anchura de la serpiente
     } 
-    
+    }
   }
 //}
  //
@@ -131,6 +124,9 @@ void movimientos() {
  default:
  break;
   }
+  }
+  }
+  void keyPressed() {
   if (key==' ') {
     gameOver=false;//Cuando mueres, se resetea los valores y posicion de la manzana
     posX.clear();
@@ -140,7 +136,7 @@ void movimientos() {
     com1 = (int) random(0, 20);
     com2 = (int) random(0, 20);
   
-  }
+  
   }
 }
  
