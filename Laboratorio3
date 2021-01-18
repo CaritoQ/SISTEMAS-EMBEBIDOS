@@ -1,1 +1,146 @@
+import processing.serial.*;
+int filas = 20;//Número de filas
+int columnas = 20;// Número de columnas
+int bs = 20;//Número de pixeles de ancho de los cuadraditos
+ArrayList<Integer> posX = new ArrayList<Integer>();//Posicion serpiente eje X
+ArrayList<Integer> posY = new ArrayList<Integer>(); //Posición serpiente eje Y
+Serial port;
+int dir=3;//Dirección en la que se mueve la serpiente
 
+int[] dx = {0, 0, -1, 1};//dirección si la serpiente sube
+int[] dy = {-1, 1, 0, 0};//
+
+int com1;
+int com2;
+int cont=0;
+String dato;
+
+boolean gameOver=true;// para que haya posibilidad de perder
+boolean cambio=false;
+
+void setup() {
+  size(400, 400);//Tamaño de la ventana. Es el resultado de la multiplicacion del número de filas por el número de columnas
+  frameRate(1);//Velocidad de la serpiente
+  fill(255,255,255);
+  text("PUNTAJE:",100,10);
+port= new Serial(this, "COM10",9600);
+  //Posiciones iniciales
+  posX.add(10);//posición inicial serpiente eje X
+  posY.add(10);//posición inicial serpiente eje Y
+  com1 = (int) random(0, 20);//Posición manzana aleatoria eje X
+  com2 = (int) random(0, 20);//Posición manzana aleatoria eje Y
+
+
+  
+}
+
+void draw() {
+   movimientos();    
+ 
+  if (cambio) {
+    background((int) random(0, 255), (int) random(0, 255), (int) random(0, 255));//color del fondo cambia constantemente 
+  } else {
+    background(0);//Fondo Blanco
+  }
+  textSize(25);
+  fill(255,255,255);
+  text("PUNTAJE:",100,20);
+  
+  //Cuando pierdes...
+  //if (gameOver) {
+  //  fill(255);//Color negro del texto
+  //  textSize(20);//Tamaño texto cuando mueres
+  //  text("Presione una tecla para iniciar", 50, height/2);//Cuando mueres aparece "Press space to continue" a una determinada altura
+  //} else {
+  //  //Grid
+    fill(255);//color negro de las líneas de los cuadrados
+    for (int i = 0; i < filas; i++) { //Dibujar filas
+      line(0, i*bs, width, i*bs);
+    }
+    for (int j = 0; j < columnas; j++) { //Dibujar columnas
+      line(j*bs, 0, j*bs, height);
+    }
+    
+
+  //  mover serpiente
+        //detectar borde .Si se detecta que la serpiente está en el borde,pierdes.
+    if( ( posX.get(0)<0 )||( posX.get(0)>filas-1 )||( posY.get(0)<0 )||( posY.get(0)>columnas-1 ) ) {
+      gameOver=true;
+    }
+
+    //comer
+    if ((posX.get(0)==com1)&&(posY.get(0)==com2)) {//La serpiente se comerá la esfera cuando estén en la misma posición
+      com1 = (int) random(0, 20);//Cuando sea comida cambiará de lugar en el eje X
+      com2 = (int) random(0, 20);//Cuando sea comida cmbiará de lugar en el eje Y
+     text(cont,100,20); 
+      cont++;
+           
+      posX.add(posX.get(posX.size()-1));//Cuando la serpiente se coma la manzana ,crecerá de tamaño
+      posY.add(posY.get(posY.size()-1));
+    
+    }
+   
+    if (cambio) {
+      fill((int) random(0, 255), (int) random(0, 255), (int) random(0, 255));
+    } else {
+      fill(255, 0, 0);//color rojo de la manzana
+    }
+    ellipse(com1*bs, com2*bs, bs, bs);//anchura de la manzana
+    //serpiente dibujada
+    if (cambio) {
+      fill((int) random(0, 255), (int) random(0, 255), (int) random(0, 255));
+    } else {
+      fill(255, 255, 255);//color azul
+    }
+    for (int i = 0; i < posX.size(); i++) {
+      ellipse(posX.get(i)*bs, posY.get(i)*bs, bs, bs);//posicion y anchura de la serpiente
+    } 
+    
+  }
+//}
+ //
+ 
+//Pulsación teclado
+void movimientos() {
+  posX.add(0, posX.get(0)+dx[dir]);//Movimiento serpiente eje X casilla a casilla
+    posY.add(0, posY.get(0)+dy[dir]);//Movimiento serpiente eje Y
+    posX.remove(posX.size()-1);//borrar antigua posición eje X
+    posY.remove(posY.size()-1);//borrar antigua posición eje Y
+  while (port.available() > 0) {
+    dato=port.readString();
+
+  println(dato);
+  println(str(dir));
+  //if (key=='h')modeEpilepsia=!modeEpilepsia;//Pulsar h para entrar en el modo epilepsia
+  switch (dato){
+  
+  case "A":
+   dir=0;
+  break;
+  case "B":
+  dir=1;
+  break;
+ case "C":
+ dir=2;
+ break;
+  
+ case "D":
+ dir=3;
+ break;
+ 
+ default:
+ break;
+  }
+  if (key==' ') {
+    gameOver=false;//Cuando mueres, se resetea los valores y posicion de la manzana
+    posX.clear();
+    posY.clear();
+    posX.add(10);
+    posY.add(10);
+    com1 = (int) random(0, 20);
+    com2 = (int) random(0, 20);
+  
+  }
+  }
+}
+ 
