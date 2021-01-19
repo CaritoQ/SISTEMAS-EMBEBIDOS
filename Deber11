@@ -1,0 +1,77 @@
+/*
+ * UNIVERSIDAD TÉCNICA DEL NORTE
+ * FACULTAD DE INGENIERÍA EN CIENCIAS APLICADAS
+ * CARRERA DE INGENIERÍA EN TELECOMUNICACIONES
+ * 
+ * Nombre: Carolina Quinatoa 
+ *  
+ *  Deber N°11
+ */
+
+//matriz de datos
+
+int matriz[14][2]={
+  {170,67},
+  {180,80},
+  {170,65},
+  {178,75},
+  {160,55},
+  {163,60},
+  {165,63},
+  {170,70},
+  {164,62},
+  {176,77},
+  {164,60},
+  {170,76},
+  {170,56},
+  {168,60},
+};
+
+int col=0; //columnas
+int fil=0; //filas
+int Ex=0;//Sumatoria de x
+int Ey=0;//Sumatoria de y
+int Eypri=0; //Sumatoria y'
+long int Exypri=0;//Sumatoria de xy'
+long int Ex2=0;//Sumatoria de x al cuadrado
+long int Ex_2=0; // ex y eso al cuadrado
+int n=14; //tam muestras
+float A=0;
+float B=0; 
+float C=0;
+float m; 
+String dato; //recibir estatura
+int estatura; //convertir dato
+float peso;
+int m1; //aux
+
+void setup() {
+  Serial.begin(9600);
+  //creación del modelo
+  for(;fil<n;fil++){
+    Ex=Ex+matriz[fil][0];
+    Eypri=Eypri+log(matriz[fil][1]);
+    Exypri=Exypri+(matriz[fil][0]*log(matriz[fil][1]));
+    Ex2=Ex2+pow(matriz[fil][0],2);
+       
+  }
+ Ex_2=pow(Ex,2);
+ A=((float(n*Eypri)-float(Ex*Eypri)))/((float(14*Ex2))-(float(Ex_2))));
+ B=(float((Eypri/n)))-((float (B))*(float (Ex/n))); //aux de desborde
+ C=exp (B);
+ 
+ Serial.println("El modelo es: ");
+ Serial.println(String("y= ")+String(C)+String("*")+String("e^")+ String(A)+ String("x"));
+ Serial.println("Ingresar la estatura: ");
+}
+
+void loop() {
+   if(Serial.available()>0){
+    dato=Serial.readString();
+    estatura=dato.toInt();
+    peso=C*exp(A*estatura);
+    
+    Serial.println(String("Su peso es: ")+String (peso)+ String ("kg"));
+ }
+
+}
