@@ -1,0 +1,113 @@
+import processing.serial.*;
+Serial puerto;  // Create object from Serial class
+
+
+int i=0;
+int col = 0;  //moverse en columnas
+int fil = 0;  //moverse en filas
+int eje1; 
+int eje2;
+int fil1 = 0;
+int col1 = 0;
+
+int Ex = 0;  //Sumatoria de X
+float Ey = 0;  //Sumatoria de Y
+float Exy = 0;  //Sumatoria de XY
+float Ex2 = 0;  //Sumatoria de X^2
+float Ex_2 = 0;  //(Ex)^2
+int n = 14;  //tamaño de muestras
+float A; 
+float Bo;
+int aux;
+
+int estatura;  
+float peso;
+float tendencia;
+
+
+int [][] matriz ={
+  {179,78},
+  {158,65},
+  {168,68},
+  {156,72},
+  {165,59},
+  {171,66},
+  {164,74},
+  {162,70},
+  {177,79},
+  {166,69},
+  {180,80},
+  {169,73},
+  {178,71},
+  {173,76},
+};
+
+
+void setup(){
+  
+  size(850,900);  // (ancho, alto)   (displayWidth,displayHeight)  P3D: Tercera dimensión
+  background(255);  // color de fondo RGB
+  
+  puerto = new Serial(this, "COM10" , 9600);
+  
+  for(;fil<n;fil++){
+    Ex = Ex+matriz[fil][0];
+    Ey = Ey+(matriz[fil][1]);
+    Exy = Exy+(matriz[fil][0]*(matriz[fil][1]));
+    Ex2 = Ex2+pow(matriz[fil][0],2);
+  }
+  Ex_2 = pow(Ex,2);
+  Bo=((Ex2*Ey)-(Ex*Exy))/((n*Ex2-Ex_2));
+  A = (((n*Exy)-(Ex*Ey))/(n*Ex2-Ex_2));
+  
+  } 
+
+void serialEvent(Serial puerto){
+  estatura = puerto.read();
+  println(estatura);
+} 
+
+
+void draw(){
+  
+  background(0);  // color de fondo RGB
+    textSize(25);
+    fill(255);
+    text("Regresión- Tendencia Lineal",250,100);
+    textSize(20);
+    text("Sistemas Embebidos- Lab 4",300,150);
+    text("Carolina Quinatoa",100,800);
+    stroke(255);
+    line(150,210,150,750);   
+    line(300,750,750,750);   
+  
+  for (int y=210; y<=790 ; y=y+60){
+    stroke(255);
+    line(150,y,750,y);   
+    fil1++;
+      if (fil1==9)
+      fil1=0;
+      for (int x=250; x<=790 ; x=x+100){
+    stroke(255);
+    strokeWeight(2);
+    line(x,210,x,750);   
+    col1++;
+    if (col1==6)
+      col1=0;
+        }  
+      }  
+  
+    for(i=0;i<14;i++){
+    eje1 = matriz[i][0];
+    eje2 = matriz[i][1]; 
+    stroke(255);
+    strokeWeight(1);
+    fill(0,0,255);
+    ellipse(eje1*20-2850,750-eje2*6,10,10);
+  } 
+
+    peso = A*estatura+Bo;
+    stroke(0);
+    fill(70,224,36);
+    ellipse(estatura*20-2850,750-peso*6,15,15);  
+} 
