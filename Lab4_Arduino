@@ -1,0 +1,72 @@
+#include <SoftwareSerial.h>
+
+SoftwareSerial serial(3,2 );
+
+int matriz [14][2]={
+  {179,78},
+  {158,65},
+  {168,68},
+  {156,72},
+  {165,59},
+  {171,66},
+  {164,74},
+  {162,70},
+  {177,79},
+  {166,69},
+  {180,80},
+  {169,73},
+  {178,71},
+  {173,76},
+};
+
+int col=0; //columnas
+int fil=0; //filas
+int Ex=0;//Sumatoria de x
+int Ey=0;//Sumatoria de y
+long int Exy=0;//Sumatoria de xy
+long int Ex2=0;//Sumatoria de x al cuadrado
+long int Ex_2=0; // ex y eso al cuadrado
+int n=14; //tam muestras
+float Bo; //ordenada en el origen
+float m; //pendiente
+String dato; //recibir estatura
+int estatura; //convertir dato
+float peso;
+int aux;
+
+
+
+void setup() {
+
+  Serial.begin(9600);
+  serial.begin(9600);
+  pinMode(3, INPUT);
+  pinMode(2, OUTPUT);
+  
+   for(;fil<n;fil++){
+    Ex = Ex+matriz[fil][0];
+    Ey = Ey+(matriz[fil][1]);
+    Exy = Exy+(matriz[fil][0]*(matriz[fil][1]));
+    Ex2 = Ex2+pow(matriz[fil][0],2);
+  }
+     Ex_2=pow(Ex,2);
+     Bo=(float(Ex2*Ey)-float(Ex*Exy))/(float(n*Ex2-Ex_2));
+     aux=(n*Exy)-(Ex*Ey); //aux de desborde
+     m=(float(aux)/float(n*Ex2-Ex_2));
+     Serial.println("El modelo es: ");
+     Serial.println(String("y= ")+String(m)+String("x")+String(Bo));
+     Serial.println("Ingrese su estatura: ");
+}
+
+
+void loop() {
+  if(Serial.available()>0){
+    dato = Serial.readString();
+    estatura = dato.toInt();
+    peso = (m*estatura)+Bo;
+    serial.write(estatura);
+    Serial.println(String(" Su peso es: ")+String(peso)+String("Kg"));
+    Serial.println("Ingrese nueva estatura: ");
+    
+  }
+}
